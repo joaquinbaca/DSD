@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Usuario</title>
+        <style>
+           #b_ac {margin-bottom: 20px;}
+        </style>
+    </head>
+    <body>
+        <h1>Control de usuario</h1>
+        <div id="botones">
+        <div id="b_ac">
+        <form id="form_encender_ac" action="">
+            <button>Encender AC</button>
+        </form>
+        <form id="form_apagar_ac" action="">
+            <button>Apagar AC</button>
+        </form>
+        </div>
+
+        <div id="b_p">
+        <form id="form_subir_persianas" action="">
+            <button>Subir persianas</button>
+        </form>
+        <form id="form_bajar_persianas" action="">
+            <button>Bajar persianas</button>
+        </form>
+        </div>
+        </div>
+        <ul id="info"></ul>
+
+        <!-- JQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+
+        <!-- Cliente socket.io -->
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+  
+  </script>
+        <script>
+            var socket = io();
+
+            // cuando se envie el formulario
+            $('#form_encender_ac').submit(function(){
+                // enviamos al servidor el mensaje a través de un evento l
+                socket.emit('estado_ac', "Encendido");
+                return false;
+            });
+
+            $('#form_apagar_ac').submit(function(){
+                // enviamos al servidor el mensaje a través de un evento l
+                socket.emit('estado_ac', "Apagado");
+                return false;
+            });
+
+            $('#form_subir_persianas').submit(function(){
+                // enviamos al servidor el mensaje a través de un evento l
+                socket.emit('estado_persianas', "Abiertas");
+                return false;
+            });
+
+            $('#form_bajar_persianas').submit(function(){
+                // enviamos al servidor el mensaje a través de un evento l
+                socket.emit('estado_persianas', "Cerradas");
+                return false;
+            });
+
+            // cuando al cliente le llegue un evento 
+            socket.on('log_luz_cliente', function(msg){
+                $('#info').append($('<li>').text("Cambio de luminosidad a =  " + msg));
+            });
+            socket.on('log_temperatura_cliente', function(msg){
+                $('#info').append($('<li>').text("Cambio de temperatura a = " + msg));                                     
+            });
+            socket.on('log_alerta_cliente', function(msg){
+                $('#info').append($('<li>').text("Alerta de agente : " + msg));                                     
+            }); 
+        </script>
+    </body>
+</html>

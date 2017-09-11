@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Luminosidad-Sensor</title>
+        <style>
+            
+        </style>
+    </head>
+    <body>
+       	<h1>Sensor de luminosidad</h1>
+        <h4>Inserta valores del 1 al 10, siendo 1 muy bajo y 9 muy alto</h4>
+        <form action="">
+            <input id="m" autocomplete="off" /><button>Cambiar</button>
+        </form>
+
+        <ul id="cambiar_luminosidad"></ul>
+
+        <!-- JQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+
+        <!-- Cliente socket.io -->
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            var socket = io();
+
+            // cuando se envie el formulario
+            $('form').submit(function(){
+                // enviamos al servidor el mensaje a través de un evento llamado 'chat message'
+                socket.emit('nueva_luminosidad', $('#m').val());
+                $('#cambiar_luminosidad').append($('<li>').text("luminosidad actualizada a " + $('#m').val()));
+                $('#m').val('');
+                return false;
+            });
+
+            // cuando al cliente le llegue un evento chat message actualiza la lista de mensajes
+            socket.on('nueva_luminosidad', function(msg){
+                $('#cambiar_luminosidad').append($('<li>').text(msg));
+            });
+        </script>
+    </body>
+</html>

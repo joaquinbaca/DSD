@@ -1,0 +1,3 @@
+Para instalar los módulos poner en la terminal npm install.
+Para lanzar el servidor poner nodejs servidor.js
+Para lanzar la página principal poner localhost:3000/
